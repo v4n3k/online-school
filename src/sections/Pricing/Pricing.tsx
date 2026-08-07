@@ -1,8 +1,17 @@
+'use client';
+'use no memo';
+
+import clsx from 'clsx';
+import { useRef, useState } from 'react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Autoplay, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
+import Button from '../../components/Button/Button';
 import Container from '../../components/Container/Container';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
-import Button from '../../components/Button/Button';
 import { SlideUp } from '../../components/SlideUp/SlideUp';
-import clsx from 'clsx';
 import styles from './Pricing.module.css';
 
 const PLANS = [
@@ -47,6 +56,10 @@ const PLANS = [
 ];
 
 export default function Pricing() {
+	const plans = [...PLANS, ...PLANS];
+	const [active, setActive] = useState(1);
+	const swiperRef = useRef<SwiperType | null>(null);
+
 	return (
 		<SlideUp className={styles.section} id='pricing'>
 			<Container>
@@ -55,50 +68,91 @@ export default function Pricing() {
 					title='Прозрачные тарифы без скрытых платежей'
 					subtitle='Первое занятие — бесплатно. Отмените в любой момент, привязка карты не нужна.'
 				/>
-				<div className={styles.grid}>
-					{PLANS.map(plan => (
-						<article
-							key={plan.name}
-							className={clsx(styles.card, plan.featured && styles.featured)}
-						>
-							{plan.featured ? (
-								<span className={styles.hit}>Популярный</span>
-							) : null}
-							<h3 className={styles.name}>{plan.name}</h3>
-							<p className={styles.price}>
-								{plan.price}
-								<span className={styles.period}> {plan.period}</span>
-							</p>
-							<p className={styles.desc}>{plan.desc}</p>
-							<ul className={styles.features}>
-								{plan.features.map(feature => (
-									<li key={feature} className={styles.feature}>
-										<span className={styles.check} aria-hidden='true'>
-											<svg
-												viewBox='0 0 24 24'
-												fill='none'
-												stroke='currentColor'
-												strokeWidth='3'
-											>
-												<path
-													d='M5 13l4 4 10-10'
-													strokeLinecap='round'
-													strokeLinejoin='round'
-												/>
-											</svg>
-										</span>
-										{feature}
-									</li>
-								))}
-							</ul>
-							<Button
-								href='#contacts'
-								variant={plan.featured ? 'primary' : 'secondary'}
-								className={styles.cta}
+				<Swiper
+					className={styles.slider}
+					modules={[Autoplay, Navigation]}
+					loop
+					centeredSlides
+onSwiper={swiper => {
+					swiperRef.current = swiper;
+				}}
+				onInit={swiper => {
+					requestAnimationFrame(() => swiper.slideToLoop(1, 0));
+				}}
+					onSlideChange={swiper => setActive(swiper.realIndex % PLANS.length)}
+					spaceBetween={24}
+					slidesPerView={1.08}
+					speed={700}
+					autoplay={{
+						delay: 4500,
+						disableOnInteraction: false,
+						pauseOnMouseEnter: true,
+					}}
+					navigation
+					breakpoints={{
+						720: { slidesPerView: 1.6 },
+						1024: { slidesPerView: 2 },
+					}}
+				>
+					{plans.map((plan, index) => (
+						<SwiperSlide key={`${plan.name}-${index}`} className={styles.slide}>
+							<article
+								className={clsx(styles.card, plan.featured && styles.featured)}
 							>
-								Выбрать тариф
-							</Button>
-						</article>
+								{plan.featured ? (
+									<span className={styles.hit}>Популярный</span>
+								) : null}
+								<h3 className={styles.name}>{plan.name}</h3>
+								<p className={styles.price}>
+									{plan.price}
+									<span className={styles.period}> {plan.period}</span>
+								</p>
+								<p className={styles.desc}>{plan.desc}</p>
+								<ul className={styles.features}>
+									{plan.features.map(feature => (
+										<li key={feature} className={styles.feature}>
+											<span className={styles.check} aria-hidden='true'>
+												<svg
+													viewBox='0 0 24 24'
+													fill='none'
+													stroke='currentColor'
+													strokeWidth='3'
+												>
+													<path
+														d='M5 13l4 4 10-10'
+														strokeLinecap='round'
+														strokeLinejoin='round'
+													/>
+												</svg>
+											</span>
+											{feature}
+										</li>
+									))}
+								</ul>
+								<Button
+									href='#contacts'
+									variant={plan.featured ? 'primary' : 'secondary'}
+									className={styles.cta}
+								>
+									Выбрать тариф
+								</Button>
+							</article>
+						</SwiperSlide>
+					))}
+				</Swiper>
+				<div className={styles.dots} role='tablist' aria-label='Тарифы'>
+					{PLANS.map((plan, index) => (
+						<button
+							key={plan.name}
+							type='button'
+							className={clsx(styles.dot, active === index && styles.dotActive)}
+							aria-label={plan.name}
+							aria-selected={active === index}
+							onClick={() => {
+								setActive(index);
+								swiperRef.current?.slideToLoop(index);
+							}}
+						/>
 					))}
 				</div>
 			</Container>
