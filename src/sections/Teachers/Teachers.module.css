@@ -3,13 +3,44 @@
   background: var(--bg-alt);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+.slide {
+  height: auto;
+}
+
+.slider {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #d3d1ea;
+  cursor: pointer;
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.dotActive {
+  width: 26px;
+  background: var(--primary);
 }
 
 .card {
+  display: block;
+  cursor: pointer;
+  height: 100%;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -23,6 +54,31 @@
 .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow);
+}
+
+.card:hover .cta,
+.card:focus-visible .cta {
+  color: var(--primary-strong);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary);
+  transition: color 0.2s ease;
+}
+
+.ctaArrow {
+  transition: transform 0.2s ease;
+}
+
+.card:hover .ctaArrow,
+.card:focus-visible .ctaArrow {
+  transform: translateX(4px);
 }
 
 .avatar {
@@ -68,18 +124,8 @@
   color: var(--muted);
 }
 
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (max-width: 560px) {
   .section {
     padding-block: var(--section-y-mobile);
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
   }
 }
