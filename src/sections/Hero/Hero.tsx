@@ -1,5 +1,5 @@
-import Container from '../../components/Container/Container';
 import Button from '../../components/Button/Button';
+import Container from '../../components/Container/Container';
 import { SlideUp } from '../../components/SlideUp/SlideUp';
 import styles from './Hero.module.css';
 
@@ -30,14 +30,14 @@ export default function Hero() {
 						Занятия один на один со студентами лучших вузов страны — без групп,
 						без «потоков», всё внимание вашему ребёнку.
 					</p>
-<div className={styles.actions}>
-            <Button href="#contacts" variant="accent" size="lg">
-              Бесплатное занятие
-            </Button>
-            <Button href="#pricing" variant="light" size="lg">
-              Выбрать формат
-            </Button>
-          </div>
+					<div className={styles.actions}>
+						<Button href='#contacts' variant='accent' size='lg'>
+							Бесплатное занятие
+						</Button>
+						<Button href='#pricing' variant='light' size='lg'>
+							Выбрать формат
+						</Button>
+					</div>
 				</div>
 
 				<ul className={styles.stats}>
