@@ -48,11 +48,11 @@ export default function Formats() {
         />
         <div className={styles.grid}>
           {FORMATS.map((format) => (
-            <article key={format.title} className={styles.card}>
+            <div key={format.title} className={styles.item}>
               <span className={styles.icon}>{format.icon}</span>
               <h3 className={styles.title}>{format.title}</h3>
               <p className={styles.desc}>{format.desc}</p>
-            </article>
+            </div>
           ))}
         </div>
       </Container>
