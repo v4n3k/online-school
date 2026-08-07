@@ -1,0 +1,149 @@
+.hero {
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(90deg, var(--primary) 0%, #7c3aed 100%);
+	padding: 96px 0 80px;
+	color: #fff;
+}
+
+.bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+}
+
+.blob {
+	position: absolute;
+	width: 420px;
+	height: 420px;
+	border-radius: 50%;
+	background: radial-gradient(circle, #fb923c 0%, #fb7185 45%, #c084fc 100%);
+	top: -140px;
+	right: -100px;
+
+	filter: blur(60px);
+	opacity: 0.45;
+	will-change: transform;
+	animation: floatBlob 12s ease-in-out infinite;
+}
+
+@keyframes floatBlob {
+	from,
+	to {
+		transform: translate(0, 0);
+	}
+	50% {
+		transform: translate(20px, -30px);
+	}
+}
+
+.inner {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: 1.15fr 1fr;
+	align-items: center;
+	gap: 48px;
+}
+
+.content {
+	max-width: 620px;
+}
+
+.badge {
+	display: inline-block;
+	background: rgba(255, 255, 255, 0.14);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	padding: 7px 16px;
+	border-radius: 999px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	margin-bottom: 24px;
+}
+
+.title {
+	font-size: clamp(2rem, 5vw, 3.2rem);
+	margin-bottom: 22px;
+}
+
+.accent {
+	position: relative;
+	white-space: nowrap;
+	background: linear-gradient(90deg, #fcd34d, #f59e0b);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.subtitle {
+	font-size: 1.15rem;
+	color: rgba(255, 255, 255, 0.88);
+	margin-bottom: 34px;
+	max-width: 520px;
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+}
+
+.stats {
+	list-style: none;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+}
+
+.statCard {
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: var(--radius);
+	padding: 24px 22px;
+	backdrop-filter: blur(8px);
+	transition:
+		transform 0.2s ease,
+		background 0.2s ease,
+		border-color 0.2s ease;
+}
+
+.statCard:hover {
+	transform: translateY(-4px);
+	background: rgba(255, 255, 255, 0.16);
+	border-color: rgba(255, 255, 255, 0.4);
+}
+
+.statValue {
+	display: block;
+	font-size: 2.1rem;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	margin-bottom: 6px;
+}
+
+.statLabel {
+	font-size: 0.92rem;
+	color: rgba(255, 255, 255, 0.82);
+}
+
+@media (max-width: 860px) {
+	.hero {
+		padding: 72px 0 56px;
+	}
+
+	.inner {
+		grid-template-columns: 1fr;
+		gap: 40px;
+	}
+
+	.content {
+		max-width: none;
+	}
+}
+
+@media (max-width: 480px) {
+	.stats {
+		grid-template-columns: 1fr 1fr;
+	}
+}
