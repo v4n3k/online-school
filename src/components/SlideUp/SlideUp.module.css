@@ -1,0 +1,22 @@
+.root > *:not(.decor) {
+	--y: 80px;
+
+	transform: translateY(var(--y));
+	opacity: 0;
+
+	will-change: transform, opacity;
+}
+
+.visible > *:not(.decor) {
+	--y: 0px;
+
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.root > *:not(.decor) {
+		transition:
+			transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+			opacity 1.2s ease-in-out;
+	}
+}
