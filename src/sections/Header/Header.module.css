@@ -8,72 +8,230 @@
 }
 
 .inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  height: 68px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	height: 68px;
 }
 
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 800;
-  font-size: 1.05rem;
-  color: var(--ink);
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-weight: 800;
+	font-size: 1.05rem;
+	color: var(--ink);
 }
 
 .nav {
-  display: flex;
-  gap: 28px;
+	display: flex;
+	gap: 28px;
 }
 
 .navLink {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
-  transition: color 0.15s ease;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--muted);
+	transition: color 0.15s ease;
 }
 
 .navLink:hover {
-  color: var(--primary);
+	color: var(--primary);
 }
 
 .actions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+	display: flex;
+	align-items: center;
+	gap: 20px;
 }
 
 .phone {
-  font-weight: 700;
-  color: var(--ink);
-  white-space: nowrap;
+	font-weight: 700;
+	color: var(--ink);
+	white-space: nowrap;
 }
 
 .cta {
-  background: var(--primary);
-  color: #fff;
-  font-weight: 700;
-  padding: 10px 20px;
-  border-radius: 999px;
-  transition: background 0.15s ease;
-  white-space: nowrap;
+	background: var(--primary);
+	color: #fff;
+	font-weight: 700;
+	padding: 10px 20px;
+	border-radius: 999px;
+	transition: background 0.15s ease;
+	white-space: nowrap;
 }
 
 .cta:hover {
-  background: var(--primary-strong);
+	background: var(--primary-strong);
 }
 
-@media (max-width: 900px) {
-  .nav {
-    display: none;
-  }
+.burger {
+	display: none;
+	position: relative;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	background: none;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	cursor: pointer;
 }
 
-@media (max-width: 560px) {
-  .phone {
-    display: none;
-  }
+.burgerLine {
+	position: absolute;
+	left: 11px;
+	right: 11px;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--ink);
+	transition:
+		transform 0.25s ease,
+		opacity 0.25s ease;
+}
+
+.burgerLine:nth-child(1) {
+	top: 14px;
+}
+
+.burgerLine:nth-child(2) {
+	top: 21px;
+}
+
+.burgerLine:nth-child(3) {
+	top: 28px;
+}
+
+.burgerLineActive:nth-child(1) {
+	top: 21px;
+	transform: rotate(45deg);
+}
+
+.burgerLineActive:nth-child(2) {
+	opacity: 0;
+}
+
+.burgerLineActive:nth-child(3) {
+	top: 21px;
+	transform: rotate(-45deg);
+}
+
+.mobileMenu {
+	display: none;
+}
+
+.backdrop {
+	display: none;
+}
+
+@media (max-width: 1200px) {
+	.nav {
+		display: none;
+	}
+
+	.actions {
+		gap: 10px;
+		margin-left: auto;
+	}
+
+	.burger {
+		display: flex;
+	}
+
+	.backdrop {
+		display: block;
+		position: fixed;
+		inset: 0;
+		z-index: 40;
+		background: rgba(16, 20, 43, 0.45);
+		animation: backdropFade 0.2s ease;
+	}
+
+	.mobileMenu {
+		display: block;
+		position: fixed;
+		top: 68px;
+		left: 0;
+		right: 0;
+		z-index: 41;
+		border-bottom: 1px solid var(--border);
+		background: rgba(255, 255, 255, 0.88);
+		backdrop-filter: blur(12px);
+		box-shadow: 0 24px 48px -24px rgba(16, 20, 43, 0.35);
+	}
+
+	.mobileNav {
+		display: flex;
+		flex-direction: column;
+		padding: 16px 24px 24px;
+		gap: 4px;
+	}
+
+	.mobileLink {
+		padding: 12px 12px;
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--ink);
+		border-radius: 10px;
+		transition: background 0.15s ease;
+	}
+
+	.mobileLink:hover {
+		background: var(--bg-alt);
+		color: var(--primary);
+	}
+
+	.mobilePhone {
+		margin-top: 12px;
+		padding: 14px 12px;
+		font-size: 1.05rem;
+		font-weight: 700;
+		color: var(--ink);
+		border-top: 1px solid var(--border);
+		text-align: center;
+	}
+
+	.mobilePhone:hover {
+		color: var(--primary);
+	}
+
+	.mobileCta {
+		display: none;
+	}
+}
+
+@keyframes backdropFade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@media (max-width: 768px) {
+	.phone {
+		display: none;
+	}
+}
+
+@media (max-width: 500px) {
+	.cta {
+		display: none;
+	}
+
+	.mobileCta {
+		display: block;
+		margin-top: 16px;
+		background: var(--primary);
+		color: #fff;
+		font-weight: 700;
+		text-align: center;
+		padding: 14px 20px;
+		border-radius: 999px;
+	}
+
+	.mobileCta:hover {
+		background: var(--primary-strong);
+	}
 }
