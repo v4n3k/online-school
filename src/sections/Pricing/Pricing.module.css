@@ -4,10 +4,10 @@
 }
 
 .slider {
-	position: relative;
-	padding-top: 26px;
-	overflow-x: clip;
-	overflow-y: visible;
+  position: relative;
+  padding-top: 26px;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .slide {
@@ -51,31 +51,6 @@
 .slide {
 	padding-top: 28px;
 	height: auto;
-}
-
-.dots {
-	display: flex;
-	justify-content: center;
-	gap: 8px;
-	margin-top: 32px;
-}
-
-.dot {
-	width: 8px;
-	height: 8px;
-	padding: 0;
-	border: none;
-	border-radius: 999px;
-	background: #d3d1ea;
-	cursor: pointer;
-	transition:
-		width 0.25s ease,
-		background 0.25s ease;
-}
-
-.dotActive {
-	width: 26px;
-	background: var(--primary);
 }
 
 .card {

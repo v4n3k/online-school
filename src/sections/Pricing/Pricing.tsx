@@ -3,13 +3,14 @@
 
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { Swiper as SwiperType } from 'swiper';
 import Button from '../../components/Button/Button';
 import Container from '../../components/Container/Container';
+import Dots from '../../components/Dots/Dots';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { SlideUp } from '../../components/SlideUp/SlideUp';
 import styles from './Pricing.module.css';
@@ -73,21 +74,16 @@ export default function Pricing() {
 					modules={[Autoplay, Navigation]}
 					loop
 					centeredSlides
-onSwiper={swiper => {
-					swiperRef.current = swiper;
-				}}
-				onInit={swiper => {
-					requestAnimationFrame(() => swiper.slideToLoop(1, 0));
-				}}
+					onSwiper={swiper => {
+						swiperRef.current = swiper;
+					}}
+					onInit={swiper => {
+						requestAnimationFrame(() => swiper.slideToLoop(1, 0));
+					}}
 					onSlideChange={swiper => setActive(swiper.realIndex % PLANS.length)}
 					spaceBetween={24}
 					slidesPerView={1.08}
 					speed={700}
-					autoplay={{
-						delay: 4500,
-						disableOnInteraction: false,
-						pauseOnMouseEnter: true,
-					}}
 					navigation
 					breakpoints={{
 						720: { slidesPerView: 1.6 },
@@ -140,21 +136,15 @@ onSwiper={swiper => {
 						</SwiperSlide>
 					))}
 				</Swiper>
-				<div className={styles.dots} role='tablist' aria-label='Тарифы'>
-					{PLANS.map((plan, index) => (
-						<button
-							key={plan.name}
-							type='button'
-							className={clsx(styles.dot, active === index && styles.dotActive)}
-							aria-label={plan.name}
-							aria-selected={active === index}
-							onClick={() => {
-								setActive(index);
-								swiperRef.current?.slideToLoop(index);
-							}}
-						/>
-					))}
-				</div>
+				<Dots
+					count={PLANS.length}
+					active={active}
+					labels={PLANS.map(p => p.name)}
+					onSelect={index => {
+						setActive(index);
+						swiperRef.current?.slideToLoop(index);
+					}}
+				/>
 			</Container>
 		</SlideUp>
 	);
