@@ -1,7 +1,6 @@
 'use client';
 'use no memo';
 
-import clsx from 'clsx';
 import { useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
@@ -9,6 +8,7 @@ import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Container from '../../components/Container/Container';
+import Dots from '../../components/Dots/Dots';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { SlideUp } from '../../components/SlideUp/SlideUp';
 import styles from './Teachers.module.css';
@@ -64,6 +64,7 @@ export default function Teachers() {
 					className={styles.slider}
 					modules={[Autoplay, Navigation]}
 					loop
+					centeredSlides
 					onSwiper={swiper => {
 						swiperRef.current = swiper;
 					}}
@@ -79,6 +80,8 @@ export default function Teachers() {
 						pauseOnMouseEnter: true,
 					}}
 					navigation
+					slidesOffsetBefore={56}
+					slidesOffsetAfter={56}
 					breakpoints={{
 						640: { slidesPerView: 2 },
 						1000: { slidesPerView: 3 },
@@ -118,21 +121,15 @@ export default function Teachers() {
 						</SwiperSlide>
 					))}
 				</Swiper>
-				<div className={styles.dots} role='tablist' aria-label='Преподаватели'>
-					{TEACHERS.map((teacher, index) => (
-						<button
-							key={teacher.name}
-							type='button'
-							className={clsx(styles.dot, active === index && styles.dotActive)}
-							aria-label={teacher.name}
-							aria-selected={active === index}
-							onClick={() => {
-								setActive(index);
-								swiperRef.current?.slideToLoop(index);
-							}}
-						/>
-					))}
-				</div>
+				<Dots
+					count={TEACHERS.length}
+					active={active}
+					labels={TEACHERS.map(t => t.name)}
+					onSelect={index => {
+						setActive(index);
+						swiperRef.current?.slideToLoop(index);
+					}}
+				/>
 			</Container>
 		</SlideUp>
 	);
