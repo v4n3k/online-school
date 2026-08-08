@@ -65,6 +65,7 @@
 .title {
   font-size: clamp(2.25rem, 6vw, 3.4rem);
   margin-bottom: 22px;
+  text-wrap: balance;
 }
 
 .accent {

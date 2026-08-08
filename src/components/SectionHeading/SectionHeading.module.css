@@ -47,6 +47,7 @@
   font-size: clamp(1.85rem, 5vw, 2.6rem);
   margin-bottom: 18px;
   position: relative;
+  text-wrap: balance;
 }
 
 .subtitle {
