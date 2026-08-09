@@ -71,8 +71,8 @@ export default function Teachers() {
 					onSlideChange={swiper =>
 						setActive(swiper.realIndex % TEACHERS.length)
 					}
-					spaceBetween={24}
-					slidesPerView={1}
+					spaceBetween={16}
+					slidesPerView={1.01}
 					speed={700}
 					autoplay={{
 						delay: 3000,
@@ -80,10 +80,15 @@ export default function Teachers() {
 						pauseOnMouseEnter: true,
 					}}
 					navigation
-					slidesOffsetBefore={56}
-					slidesOffsetAfter={56}
+					slidesOffsetBefore={48}
+					slidesOffsetAfter={48}
 					breakpoints={{
-						640: { slidesPerView: 2 },
+						640: {
+							slidesPerView: 2,
+							spaceBetween: 24,
+							slidesOffsetBefore: 56,
+							slidesOffsetAfter: 56,
+						},
 						1000: { slidesPerView: 3 },
 					}}
 				>
