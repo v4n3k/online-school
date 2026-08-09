@@ -26,14 +26,16 @@
     box-shadow 0.2s ease;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
-}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
 
-.card:hover .cta,
-.card:focus-visible .cta {
-  color: var(--primary-strong);
+  .card:hover .cta,
+  .card:focus-visible .cta {
+    color: var(--primary-strong);
+  }
 }
 
 .cta {
@@ -51,9 +53,11 @@
   transition: transform 0.2s ease;
 }
 
-.card:hover .ctaArrow,
-.card:focus-visible .ctaArrow {
-  transform: translateX(4px);
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .ctaArrow,
+  .card:focus-visible .ctaArrow {
+    transform: translateX(4px);
+  }
 }
 
 .avatar {

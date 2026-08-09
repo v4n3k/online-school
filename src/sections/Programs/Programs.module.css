@@ -18,8 +18,10 @@
   transition: box-shadow 0.2s ease;
 }
 
-.card:hover {
-  box-shadow: var(--shadow);
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    box-shadow: var(--shadow);
+  }
 }
 
 .media {
@@ -127,8 +129,10 @@
   transition: transform 0.15s ease;
 }
 
-.link:hover svg {
-  transform: translateX(4px);
+@media (hover: hover) and (pointer: fine) {
+  .link:hover svg {
+    transform: translateX(4px);
+  }
 }
 
 @media (max-width: 860px) {

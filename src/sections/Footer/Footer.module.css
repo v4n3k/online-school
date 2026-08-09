@@ -31,8 +31,10 @@
   transition: color 0.15s ease;
 }
 
-.nav a:hover {
-  color: #fff;
+@media (hover: hover) and (pointer: fine) {
+  .nav a:hover {
+    color: #fff;
+  }
 }
 
 .copy {

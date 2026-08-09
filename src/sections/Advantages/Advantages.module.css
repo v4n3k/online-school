@@ -33,8 +33,10 @@
   transition: transform 0.2s ease;
 }
 
-.block:hover .icon {
-  transform: translateY(-3px);
+@media (hover: hover) and (pointer: fine) {
+  .block:hover .icon {
+    transform: translateY(-3px);
+  }
 }
 
 .icon svg {

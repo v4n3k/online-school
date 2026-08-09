@@ -16,8 +16,10 @@
   white-space: nowrap;
 }
 
-.button:hover {
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .md {
@@ -36,8 +38,10 @@
   box-shadow: 0 8px 24px -8px rgba(79, 70, 229, 0.7);
 }
 
-.primary:hover {
-  background: var(--primary-strong);
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover {
+    background: var(--primary-strong);
+  }
 }
 
 .secondary {
@@ -46,8 +50,10 @@
   border-color: var(--primary);
 }
 
-.secondary:hover {
-  background: var(--primary-soft);
+@media (hover: hover) and (pointer: fine) {
+  .secondary:hover {
+    background: var(--primary-soft);
+  }
 }
 
 .accent {
@@ -56,8 +62,10 @@
   box-shadow: 0 8px 24px -8px rgba(245, 158, 11, 0.7);
 }
 
-.accent:hover {
-  filter: brightness(1.05);
+@media (hover: hover) and (pointer: fine) {
+  .accent:hover {
+    filter: brightness(1.05);
+  }
 }
 
 .light {
@@ -65,6 +73,8 @@
   color: var(--primary);
 }
 
-.light:hover {
-  box-shadow: var(--shadow);
+@media (hover: hover) and (pointer: fine) {
+  .light:hover {
+    box-shadow: var(--shadow);
+  }
 }
