@@ -77,11 +77,16 @@ export default function Header() {
 				</button>
 			</Container>
 
-			{open &&
+			{typeof document !== 'undefined' &&
 				createPortal(
 					<>
-						<div className={styles.backdrop} onClick={() => setOpen(false)} />
-						<div className={styles.mobileMenu}>
+						<div
+							className={`${styles.backdrop} ${open ? styles.backdropOpen : ''}`}
+							onClick={() => setOpen(false)}
+						/>
+						<div
+							className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`}
+						>
 							<nav className={styles.mobileNav} aria-label='Мобильная навигация'>
 								{NAV_LINKS.map(link => (
 									<a

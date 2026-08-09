@@ -144,7 +144,18 @@
 		inset: 0;
 		z-index: 40;
 		background: rgba(16, 20, 43, 0.45);
-		animation: backdropFade 0.2s ease;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity 0.25s ease,
+			visibility 0.25s ease;
+	}
+
+	.backdropOpen {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
 	}
 
 	.mobileMenu {
@@ -158,6 +169,21 @@
 		background: rgba(255, 255, 255, 0.88);
 		backdrop-filter: blur(12px);
 		box-shadow: 0 24px 48px -24px rgba(16, 20, 43, 0.35);
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-12px);
+		pointer-events: none;
+		transition:
+			opacity 0.25s ease,
+			visibility 0.25s ease,
+			transform 0.25s ease;
+	}
+
+	.mobileMenuOpen {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+		pointer-events: auto;
 	}
 
 	.mobileNav {
@@ -197,15 +223,6 @@
 
 	.mobileCta {
 		display: none;
-	}
-}
-
-@keyframes backdropFade {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
 	}
 }
 
