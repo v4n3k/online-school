@@ -16,6 +16,11 @@ const NAV_LINKS = [
 
 export default function Header() {
 	const [open, setOpen] = useState(false);
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	useEffect(() => {
 		if (!open) return;
@@ -77,7 +82,7 @@ export default function Header() {
 				</button>
 			</Container>
 
-			{typeof document !== 'undefined' &&
+			{mounted &&
 				createPortal(
 					<>
 						<div
