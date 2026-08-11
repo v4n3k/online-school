@@ -145,6 +145,23 @@ h4 {
 	font-weight: 700;
 }
 
+.skip-link {
+	position: fixed;
+	top: -100%;
+	left: 16px;
+	z-index: 9999;
+	padding: 12px 20px;
+	border-radius: 10px;
+	background: var(--ink);
+	color: #fff;
+	font-weight: 700;
+	transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+	top: 16px;
+}
+
 @media (max-width: 640px) {
 	h1 {
 		font-size: 2rem;

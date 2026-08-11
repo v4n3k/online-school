@@ -68,9 +68,9 @@ export function Formats() {
 					title='Как проходит занятие'
 					subtitle='Один формат — один на один с преподавателем. Так ребёнок получает максимум пользы за каждый час.'
 				/>
-				<div className={styles.rows}>
+				<ul className={styles.rows}>
 					{FORMATS.map(format => (
-						<div key={format.title} className={styles.row}>
+						<li key={format.title} className={styles.row}>
 							<div className={styles.text}>
 								<h3 className={styles.title}>{format.title}</h3>
 								<p className={styles.desc}>{format.desc}</p>
@@ -78,9 +78,9 @@ export function Formats() {
 							<div className={styles.media}>
 								<span className={styles.icon}>{format.icon}</span>
 							</div>
-						</div>
+						</li>
 					))}
-				</div>
+				</ul>
 			</Container>
 		</SlideUp>
 	);

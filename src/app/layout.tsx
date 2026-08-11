@@ -22,7 +22,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ru" className={`${onest.variable} ${manrope.variable}`}>
-      <body>{children}</body>
+      <body>
+      <a href="#main" className="skip-link">
+        Перейти к содержимому
+      </a>
+      {children}
+    </body>
     </html>
   );
 }

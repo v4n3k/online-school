@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { Container, Logo } from '@/components';
 import styles from './Header.module.css';
@@ -15,11 +15,11 @@ const NAV_LINKS = [
 
 export function Header() {
 	const [open, setOpen] = useState(false);
-	const [mounted, setMounted] = useState(false);
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
+	const mounted = useSyncExternalStore(
+		() => () => {},
+		() => true,
+		() => false,
+	);
 
 	useEffect(() => {
 		if (!open) return;
@@ -67,6 +67,7 @@ export function Header() {
 					className={styles.burger}
 					aria-label='Открыть меню'
 					aria-expanded={open}
+					aria-controls={mounted ? 'mobile-menu' : undefined}
 					onClick={() => setOpen(o => !o)}
 				>
 					<span
@@ -89,6 +90,7 @@ export function Header() {
 							onClick={() => setOpen(false)}
 						/>
 						<div
+							id='mobile-menu'
 							className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`}
 						>
 							<nav className={styles.mobileNav} aria-label='Мобильная навигация'>

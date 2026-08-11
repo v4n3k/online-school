@@ -95,9 +95,9 @@ export function Teachers() {
 							className={styles.slide}
 						>
 							<a href='#contacts' className={styles.card}>
-								<div className={styles.avatar} aria-hidden='true'>
-									{teacher.initials}
-								</div>
+							<span className={styles.avatar} aria-hidden='true'>
+								{teacher.initials}
+							</span>
 								<h3 className={styles.name}>{teacher.name}</h3>
 								<span className={styles.university}>{teacher.university}</span>
 								<span className={styles.subject}>{teacher.subject}</span>

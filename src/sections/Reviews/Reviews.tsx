@@ -105,8 +105,8 @@ export function Reviews() {
 										{review.author[0]}
 									</span>
 									<div>
-										<span className={styles.name}>{review.author}</span>
-										<span className={styles.role}>{review.role}</span>
+										<h3 className={styles.name}>{review.author}</h3>
+										<p className={styles.role}>{review.role}</p>
 									</div>
 								</footer>
 							</article>

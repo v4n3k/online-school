@@ -54,23 +54,21 @@ export function ContactCta() {
 						Позвоните или напишите нам — подберём индивидуальную программу под
 						уровень ребёнка и ответим на все вопросы.
 					</p>
-					<div className={styles.channels}>
+					<ul className={styles.channels}>
 						{CHANNELS.map(channel => (
-							<a
-								key={channel.label}
-								href={channel.href}
-								className={styles.channel}
-							>
-								<span className={styles.channelIcon}>{channel.icon}</span>
-								<span>
-									<span className={styles.channelLabel}>{channel.label}</span>
-									<span className={styles.channelValue}>
-										{channel.value ?? ''}
+							<li key={channel.label} className={styles.channelItem}>
+								<a href={channel.href} className={styles.channel}>
+									<span className={styles.channelIcon}>{channel.icon}</span>
+									<span>
+										<span className={styles.channelLabel}>{channel.label}</span>
+										<span className={styles.channelValue}>
+											{channel.value ?? ''}
+										</span>
 									</span>
-								</span>
-							</a>
+								</a>
+							</li>
 						))}
-					</div>
+					</ul>
 				</div>
 			</Container>
 		</SlideUp>

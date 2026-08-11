@@ -10,14 +10,14 @@ type DotsProps = {
 
 export function Dots({ count, active, labels, onSelect }: DotsProps) {
 	return (
-		<div className={styles.dots} role="tablist" aria-label="Слайдер">
+		<div className={styles.dots} role="group" aria-label="Навигация по слайдам">
 			{Array.from({ length: count }).map((_, index) => (
 				<button
 					key={labels[index]}
 					type="button"
 					className={clsx(styles.dot, active === index && styles.dotActive)}
 					aria-label={labels[index]}
-					aria-selected={active === index}
+					aria-current={active === index ? "true" : undefined}
 					onClick={() => onSelect(index)}
 				/>
 			))}

@@ -54,18 +54,18 @@ export function Advantages() {
           title="Ученикам и родителям удобно с нами"
           subtitle="Мы выстроили процесс так, чтобы подготовка давала результат, а не выматывала."
         />
-        <div className={styles.grid}>
+        <ul className={styles.grid}>
           {FEATURES.map((feature, index) => (
-            <div key={feature.title} className={styles.block}>
+            <li key={feature.title} className={styles.block}>
               <div className={styles.head}>
                 <span className={styles.icon}>{feature.icon}</span>
                 <span className={styles.num}>{String(index + 1).padStart(2, "0")}</span>
               </div>
               <h3 className={styles.title}>{feature.title}</h3>
               <p className={styles.text}>{feature.text}</p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </Container>
     </SlideUp>
   );
