@@ -8,11 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import Button from '../../components/Button/Button';
-import Container from '../../components/Container/Container';
-import Dots from '../../components/Dots/Dots';
-import SectionHeading from '../../components/SectionHeading/SectionHeading';
-import { SlideUp } from '../../components/SlideUp/SlideUp';
+import { Button, Container, Dots, SectionHeading, SlideUp } from '@/components';
 import styles from './Pricing.module.css';
 
 const PLANS = [
@@ -56,7 +52,7 @@ const PLANS = [
 	},
 ];
 
-export default function Pricing() {
+export function Pricing() {
 	const plans = [...PLANS, ...PLANS];
 	const [active, setActive] = useState(1);
 	const swiperRef = useRef<SwiperType | null>(null);

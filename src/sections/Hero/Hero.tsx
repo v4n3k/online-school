@@ -1,6 +1,4 @@
-import Button from '../../components/Button/Button';
-import Container from '../../components/Container/Container';
-import { SlideUp } from '../../components/SlideUp/SlideUp';
+import { Button, Container, SlideUp } from '@/components';
 import styles from './Hero.module.css';
 
 const HERO_STATS = [
@@ -10,7 +8,7 @@ const HERO_STATS = [
 	{ value: '100%', label: 'внимания н ашему ученику' },
 ];
 
-export default function Hero() {
+export function Hero() {
 	return (
 		<SlideUp className={styles.hero} id='top'>
 			<div className={`${styles.bg} decor`} aria-hidden='true'>

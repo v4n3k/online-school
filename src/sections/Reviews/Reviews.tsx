@@ -7,10 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import Container from '../../components/Container/Container';
-import Dots from '../../components/Dots/Dots';
-import SectionHeading from '../../components/SectionHeading/SectionHeading';
-import { SlideUp } from '../../components/SlideUp/SlideUp';
+import { Container, Dots, SectionHeading, SlideUp } from '@/components';
 import styles from './Reviews.module.css';
 
 const REVIEWS = [
@@ -37,7 +34,7 @@ const REVIEWS = [
 	},
 ];
 
-export default function Reviews() {
+export function Reviews() {
 	const [active, setActive] = useState(0);
 	const swiperRef = useRef<SwiperType | null>(null);
 

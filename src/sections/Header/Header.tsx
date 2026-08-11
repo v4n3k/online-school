@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import Container from '../../components/Container/Container';
-import Logo from '../../components/Logo/Logo';
+import { Container, Logo } from '@/components';
 import styles from './Header.module.css';
 
 const NAV_LINKS = [
@@ -14,7 +13,7 @@ const NAV_LINKS = [
 	{ href: '#faq', label: 'Вопросы' },
 ];
 
-export default function Header() {
+export function Header() {
 	const [open, setOpen] = useState(false);
 	const [mounted, setMounted] = useState(false);
 

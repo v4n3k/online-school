@@ -1,6 +1,4 @@
-import Container from "../../components/Container/Container";
-import SectionHeading from "../../components/SectionHeading/SectionHeading";
-import { SlideUp } from "../../components/SlideUp/SlideUp";
+import { Container, SectionHeading, SlideUp } from "@/components";
 import styles from "./Advantages.module.css";
 
 const FEATURES = [
@@ -47,7 +45,7 @@ const FEATURES = [
   },
 ];
 
-export default function Advantages() {
+export function Advantages() {
   return (
     <SlideUp className={styles.section} id="advantages">
       <Container>

@@ -1,0 +1,11 @@
+export { Advantages } from "./Advantages/Advantages";
+export { ContactCta } from "./ContactCta/ContactCta";
+export { Faq } from "./Faq/Faq";
+export { Footer } from "./Footer/Footer";
+export { Formats } from "./Formats/Formats";
+export { Header } from "./Header/Header";
+export { Hero } from "./Hero/Hero";
+export { Pricing } from "./Pricing/Pricing";
+export { Programs } from "./Programs/Programs";
+export { Reviews } from "./Reviews/Reviews";
+export { Teachers } from "./Teachers/Teachers";

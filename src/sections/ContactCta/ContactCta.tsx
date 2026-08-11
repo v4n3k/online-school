@@ -1,5 +1,4 @@
-import Container from '../../components/Container/Container';
-import { SlideUp } from '../../components/SlideUp/SlideUp';
+import { Container, SlideUp } from '@/components';
 import styles from './ContactCta.module.css';
 
 const CHANNELS = [
@@ -43,7 +42,7 @@ const CHANNELS = [
 	},
 ];
 
-export default function ContactCta() {
+export function ContactCta() {
 	return (
 		<SlideUp className={styles.section} id='contacts'>
 			<Container>

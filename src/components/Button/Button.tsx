@@ -7,7 +7,7 @@ type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   size?: "md" | "lg";
 };
 
-export default function Button({
+export function Button({
   children,
   variant = "primary",
   size = "md",

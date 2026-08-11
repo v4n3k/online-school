@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Container from "../../components/Container/Container";
-import SectionHeading from "../../components/SectionHeading/SectionHeading";
-import { SlideUp } from "../../components/SlideUp/SlideUp";
+import { Container, SectionHeading, SlideUp } from "@/components";
 import clsx from "clsx";
 import styles from "./Faq.module.css";
 
@@ -35,7 +33,7 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default function Faq() {
+export function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (

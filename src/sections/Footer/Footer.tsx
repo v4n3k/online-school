@@ -1,5 +1,4 @@
-import Container from "../../components/Container/Container";
-import Logo from "../../components/Logo/Logo";
+import { Container, Logo } from "@/components";
 import styles from "./Footer.module.css";
 
 const NAV_LINKS = [
@@ -10,7 +9,7 @@ const NAV_LINKS = [
   { href: "#faq", label: "Вопросы" },
 ];
 
-export default function Footer() {
+export function Footer() {
   return (
     <footer className={styles.footer}>
       <Container className={styles.inner}>

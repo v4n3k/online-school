@@ -8,7 +8,7 @@ type DotsProps = {
 	onSelect: (index: number) => void;
 };
 
-export default function Dots({ count, active, labels, onSelect }: DotsProps) {
+export function Dots({ count, active, labels, onSelect }: DotsProps) {
 	return (
 		<div className={styles.dots} role="tablist" aria-label="Слайдер">
 			{Array.from({ length: count }).map((_, index) => (

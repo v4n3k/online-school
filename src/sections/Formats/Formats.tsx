@@ -1,6 +1,4 @@
-import Container from '../../components/Container/Container';
-import SectionHeading from '../../components/SectionHeading/SectionHeading';
-import { SlideUp } from '../../components/SlideUp/SlideUp';
+import { Container, SectionHeading, SlideUp } from '@/components';
 import styles from './Formats.module.css';
 
 const FORMATS = [
@@ -61,7 +59,7 @@ const FORMATS = [
 	},
 ];
 
-export default function Formats() {
+export function Formats() {
 	return (
 		<SlideUp className={styles.section} id='formats'>
 			<Container>

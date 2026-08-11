@@ -14,7 +14,7 @@ const logoStyle: React.CSSProperties = {
   flexShrink: 0,
 };
 
-export default function Logo() {
+export function Logo() {
   return (
     <span className="logo" style={logoStyle} aria-hidden="true">
       Б

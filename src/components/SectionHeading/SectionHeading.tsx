@@ -9,7 +9,7 @@ type SectionHeadingProps = {
   dark?: boolean;
 };
 
-export default function SectionHeading({
+export function SectionHeading({
   kicker,
   title,
   subtitle,

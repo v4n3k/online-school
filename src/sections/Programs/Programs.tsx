@@ -1,7 +1,5 @@
 import Image from "next/image";
-import Container from "../../components/Container/Container";
-import SectionHeading from "../../components/SectionHeading/SectionHeading";
-import { SlideUp } from "../../components/SlideUp/SlideUp";
+import { Container, SectionHeading, SlideUp } from "@/components";
 import styles from "./Programs.module.css";
 
 const PROGRAMS = [
@@ -35,7 +33,7 @@ const PROGRAMS = [
   },
 ];
 
-export default function Programs() {
+export function Programs() {
   return (
     <SlideUp className={styles.section} id="programs">
       <Container>
