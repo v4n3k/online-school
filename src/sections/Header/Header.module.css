@@ -24,6 +24,20 @@
 	color: var(--ink);
 }
 
+.brandText {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.15;
+}
+
+.brandTag {
+	font-size: 0.6rem;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
 .nav {
 	display: flex;
 	gap: 28px;

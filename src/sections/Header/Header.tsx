@@ -42,7 +42,10 @@ export function Header() {
 			<Container className={styles.inner}>
 				<a href='#top' className={styles.brand}>
 					<Logo />
-					<span className={styles.brandName}>Школа «Богатель»</span>
+					<span className={styles.brandText}>
+						<span className={styles.brandName}>Вектор</span>
+						<span className={styles.brandTag}>онлайн-школа</span>
+					</span>
 				</a>
 
 				<nav className={styles.nav} aria-label='Основная навигация'>

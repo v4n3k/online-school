@@ -15,7 +15,10 @@ export function Footer() {
       <Container className={styles.inner}>
         <a href="#top" className={styles.brand}>
           <Logo />
-          <span className={styles.brandName}>Школа «Богатель»</span>
+          <span className={styles.brandText}>
+            <span className={styles.brandName}>Вектор</span>
+            <span className={styles.brandTag}>онлайн-школа</span>
+          </span>
         </a>
 
         <nav className={styles.nav} aria-label="Навигация в подвале">
@@ -26,7 +29,7 @@ export function Footer() {
           ))}
         </nav>
 
-        <p className={styles.copy}>© {new Date().getFullYear()} Онлайн-школа «Богатель»</p>
+        <p className={styles.copy}>© {new Date().getFullYear()} Онлайн-школа «Вектор»</p>
       </Container>
     </footer>
   );

@@ -7,9 +7,6 @@ const logoStyle: React.CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  fontWeight: 800,
-  fontSize: 19,
-  lineHeight: 1,
   userSelect: "none",
   flexShrink: 0,
 };
@@ -17,7 +14,19 @@ const logoStyle: React.CSSProperties = {
 export function Logo() {
   return (
     <span className="logo" style={logoStyle} aria-hidden="true">
-      Б
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 21V3" />
+        <path d="M5 10l7-7 7 7" />
+      </svg>
     </span>
   );
 }
