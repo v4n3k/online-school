@@ -2,10 +2,10 @@ import { Button, Container, SlideUp } from '@/components';
 import styles from './Hero.module.css';
 
 const HERO_STATS = [
-	{ value: '60 мин', label: 'одно занятие один на один' },
+	{ value: '60 мин', label: 'продолжительность занятия с преподавателем' },
 	{ value: '1/1', label: 'только индивидуальные занятия' },
 	{ value: '5–9', label: 'классы, с которыми работаем' },
-	{ value: '100%', label: 'внимания н ашему ученику' },
+	{ value: '100%', label: 'внимания обучающимся' },
 ];
 
 export function Hero() {

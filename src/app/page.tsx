@@ -8,22 +8,21 @@ import {
 	Hero,
 	Pricing,
 	Programs,
-	Reviews,
 	Teachers,
-} from "@/sections";
+} from '@/sections';
 
 export default function Home() {
 	return (
 		<>
 			<Header />
-			<main id="main">
+			<main id='main'>
 				<Hero />
 				<Advantages />
 				<Programs />
 				<Formats />
 				<Teachers />
 				<Pricing />
-				<Reviews />
+				{/* <Reviews /> */}
 				<Faq />
 				<ContactCta />
 			</main>

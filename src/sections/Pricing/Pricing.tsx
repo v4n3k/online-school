@@ -1,6 +1,7 @@
 'use client';
 'use no memo';
 
+import { Button, Container, Dots, SectionHeading, SlideUp } from '@/components';
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -8,13 +9,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Button, Container, Dots, SectionHeading, SlideUp } from '@/components';
 import styles from './Pricing.module.css';
 
 const PLANS = [
 	{
 		name: 'Разовое занятие',
-		price: '2 500 ₽',
+		price: '1890 ₽',
 		period: 'за час',
 		desc: 'Подходит, чтобы попробовать и закрыть конкретную тему.',
 		features: [
@@ -25,7 +25,7 @@ const PLANS = [
 	},
 	{
 		name: 'Оптимум',
-		price: '9 000 ₽',
+		price: '6500 ₽',
 		period: 'в месяц · 4 занятия',
 		desc: 'Самый популярный формат регулярной подготовки.',
 		featured: true,
@@ -39,7 +39,7 @@ const PLANS = [
 	},
 	{
 		name: 'Максимум',
-		price: '17 000 ₽',
+		price: '11 000 ₽',
 		period: 'в месяц · 8 занятий',
 		desc: 'Интенсивная подготовка к ОГЭ и олимпиадам.',
 		features: [
