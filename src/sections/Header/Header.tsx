@@ -43,7 +43,7 @@ export function Header() {
 				<a href='#top' className={styles.brand}>
 					<Logo />
 					<span className={styles.brandText}>
-						<span className={styles.brandName}>Вектор</span>
+						<span className={styles.brandName}>Азимут</span>
 						<span className={styles.brandTag}>онлайн-школа</span>
 					</span>
 				</a>
@@ -74,13 +74,19 @@ export function Header() {
 					onClick={() => setOpen(o => !o)}
 				>
 					<span
-						className={`${styles.burgerLine} ${open ? styles.burgerLineActive : ''}`}
+						className={`${styles.burgerLine} ${
+							open ? styles.burgerLineActive : ''
+						}`}
 					/>
 					<span
-						className={`${styles.burgerLine} ${open ? styles.burgerLineActive : ''}`}
+						className={`${styles.burgerLine} ${
+							open ? styles.burgerLineActive : ''
+						}`}
 					/>
 					<span
-						className={`${styles.burgerLine} ${open ? styles.burgerLineActive : ''}`}
+						className={`${styles.burgerLine} ${
+							open ? styles.burgerLineActive : ''
+						}`}
 					/>
 				</button>
 			</Container>
@@ -89,14 +95,21 @@ export function Header() {
 				createPortal(
 					<>
 						<div
-							className={`${styles.backdrop} ${open ? styles.backdropOpen : ''}`}
+							className={`${styles.backdrop} ${
+								open ? styles.backdropOpen : ''
+							}`}
 							onClick={() => setOpen(false)}
 						/>
 						<div
 							id='mobile-menu'
-							className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`}
+							className={`${styles.mobileMenu} ${
+								open ? styles.mobileMenuOpen : ''
+							}`}
 						>
-							<nav className={styles.mobileNav} aria-label='Мобильная навигация'>
+							<nav
+								className={styles.mobileNav}
+								aria-label='Мобильная навигация'
+							>
 								{NAV_LINKS.map(link => (
 									<a
 										key={link.href}
