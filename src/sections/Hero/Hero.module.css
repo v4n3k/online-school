@@ -63,9 +63,9 @@
 }
 
 .title {
-  font-size: clamp(2.25rem, 6vw, 3.4rem);
-  margin-bottom: 22px;
-  text-wrap: balance;
+	font-size: clamp(2.25rem, 6vw, 3.4rem);
+	margin-bottom: 22px;
+	text-wrap: balance;
 }
 
 .accent {
@@ -127,6 +127,7 @@
 
 .statLabel {
 	font-size: 0.92rem;
+	line-height: 1.5;
 	color: rgba(255, 255, 255, 0.82);
 }
 
@@ -148,5 +149,9 @@
 @media (max-width: 480px) {
 	.stats {
 		grid-template-columns: 1fr 1fr;
+	}
+
+	.statLabel {
+		font-size: 0.8rem;
 	}
 }
