@@ -30,7 +30,7 @@ export function Footer() {
 				</nav>
 
 				<p className={styles.copy}>
-					© {new Date().getFullYear()} Онлайн-школа «Вектор»
+					© {new Date().getFullYear()} Онлайн-школа «Азимут»
 				</p>
 			</Container>
 		</footer>
