@@ -117,17 +117,11 @@ button {
 @media (hover: hover) and (pointer: fine) {
 	.swiper .swiper-button-prev:hover,
 	.swiper .swiper-button-next:hover {
-		transform: translateY(-2px);
 		background: linear-gradient(135deg, var(--primary), #7c3aed);
 		border-color: transparent;
 		box-shadow: 0 12px 24px -10px rgba(79, 70, 229, 0.5);
 		color: #fff;
 	}
-}
-
-.swiper .swiper-button-prev:active,
-.swiper .swiper-button-next:active {
-	transform: translateY(0);
 }
 
 .swiper .swiper-button-disabled {

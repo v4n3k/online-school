@@ -1,52 +1,60 @@
 'use client';
 'use no memo';
 
+import { Container, Dots, SectionHeading, SlideUp } from '@/components';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Container, Dots, SectionHeading, SlideUp } from '@/components';
 import styles from './Teachers.module.css';
 
 const TEACHERS = [
 	{
-		initials: 'АК',
-		name: 'Анастасия К.',
-		university: 'МГТУ им. Н. Э. Баумана',
-		subject: 'Математика · Физика',
-		text:
-			'Готовит к ОГЭ по математике и физике, делится своим свежим опытом сдачи экзаменов.',
+		avatarSrc: '/images/lebedev_v2.jpg',
+		name: 'Лебедев Марат Русланович',
+		university: 'Российский университет медицины',
+		subject: 'Химия · Биология',
+		text: 'Подготовит к ОГЭ и олимпиадам по биологии с любого уровня знаний',
 	},
 	{
-		initials: 'МВ',
-		name: 'Михаил В.',
+		avatarSrc: '/images/kopyrina_v2.jpg',
+		name: 'Копырина Анастасия Ильинична',
 		university: 'НИУ ВШЭ',
-		subject: 'Информатика',
-		text:
-			'Призёр олимпиад по информатике, помогает с программированием и подготовкой к ОГЭ.',
+		subject: 'Английский язык',
+		text: 'Преподает английский 3 года, уровень знаний C1',
 	},
 	{
-		initials: 'ЕС',
-		name: 'Екатерина С.',
-		university: 'Финансовый университет',
+		avatarSrc: '/images/kostunin_v2.jpg',
+		name: 'Костюнин Даниил Олегович',
+		university: 'РНИМУ им. Н.И. Пирогова',
+		subject: 'Биология',
+		text:
+			'Преподает биологию 3 года ,готовит к ОГЭ , очень легко находит общий язык с ребенком',
+	},
+	{
+		avatarSrc: '/images/chernyh_v2.jpg',
+		name: 'Черных Максим Игоревич',
+		university: 'МГТУ им Н.Э.Баумана',
+		subject: 'Физика',
+		text:
+			'Объяснит сложную физику простым языком и подготовит к ОГЭ на высокий балл',
+	},
+	{
+		avatarSrc: '/images/novikov_v2.jpg',
+		name: 'Новиков Аким Алексеевич',
+		university:
+			'Российская академия народного хозяйства и государственной службы (РАНХИГС)',
 		subject: 'Обществознание · История',
 		text:
-			'Готовит к ОГЭ по обществознанию и истории, объясняет материал живым языком.',
-	},
-	{
-		initials: 'ДА',
-		name: 'Дарья А.',
-		university: 'Российский университет медицины',
-		subject: 'Биология · Химия',
-		text:
-			'Помогает разобраться в биологии и химии, готовит к экзаменам и олимпиадам.',
+			'Подготовит к ОГЭ по обществознанию и истории системно и понятно — без скучной теории',
 	},
 ];
 
 export function Teachers() {
-	const teachers = [...TEACHERS, ...TEACHERS];
+	const [teachers] = useState([...TEACHERS, ...TEACHERS]);
 	const [active, setActive] = useState(0);
 	const swiperRef = useRef<SwiperType | null>(null);
 	return (
@@ -61,7 +69,11 @@ export function Teachers() {
 					className={styles.slider}
 					modules={[Autoplay, Navigation]}
 					loop
+					loopAdditionalSlides={2}
+					watchSlidesProgress
+					updateOnWindowResize
 					centeredSlides
+					grabCursor
 					onSwiper={swiper => {
 						swiperRef.current = swiper;
 					}}
@@ -70,11 +82,12 @@ export function Teachers() {
 					}
 					spaceBetween={16}
 					slidesPerView={1.01}
-					speed={700}
+					speed={500}
 					autoplay={{
 						delay: 3000,
 						disableOnInteraction: false,
 						pauseOnMouseEnter: true,
+						waitForTransition: false,
 					}}
 					navigation
 					slidesOffsetBefore={48}
@@ -95,9 +108,14 @@ export function Teachers() {
 							className={styles.slide}
 						>
 							<a href='#contacts' className={styles.card}>
-							<span className={styles.avatar} aria-hidden='true'>
-								{teacher.initials}
-							</span>
+								<Image
+									className={styles.avatar}
+									src={teacher.avatarSrc}
+									alt=''
+									width={88}
+									height={88}
+								/>
+
 								<h3 className={styles.name}>{teacher.name}</h3>
 								<span className={styles.university}>{teacher.university}</span>
 								<span className={styles.subject}>{teacher.subject}</span>
