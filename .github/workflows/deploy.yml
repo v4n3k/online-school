@@ -3,7 +3,7 @@ name: Deploy Next.js SSG to Cloud.ru
 on:
   push:
     branches:
-      - main
+      - main # Укажите вашу ветку, если это master или другая
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-on-version: '23'
+          node-version: '24' # Исправили опечатку в ключе и обновили версию Node
           cache: 'npm'
 
       - name: Install dependencies
@@ -30,7 +30,9 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ru-central1 # Регион Cloud.ru по умолчанию
+          aws-region: ru-central1
+          audience: https://cloud.ru # Явно указываем аудиторию для S3
+          skip-credentials-validation: true # Отключаем проверку через несуществующий STS AWS
 
       - name: Deploy to Cloud.ru S3
         run: |
