@@ -3,7 +3,7 @@ name: Deploy Next.js SSG to Cloud.ru
 on:
   push:
     branches:
-      - main # Напишите master, если ваша ветка называется master
+      - main # Если ваша главная ветка называется master, замените main на master
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
       - name: Deploy to Cloud.ru S3
         run: |
           aws s3 sync out/ s3://azimut-school.ru \
-            --endpoint-url=https://cloud.ru \
+            --endpoint-url=https://s3.cloud.ru \
             --region=ru-central-1 \
             --delete
         env:
