@@ -36,7 +36,9 @@ jobs:
             --s3-region=ru-central-1 \
             --s3-access-key-id=$AWS_ACCESS_KEY_ID \
             --s3-secret-access-key=$AWS_SECRET_ACCESS_KEY \
-            --s3-no-check-bucket
+            --s3-no-check-bucket \
+            --s3-no-head \
+            --s3-upload-concurrency=1
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
