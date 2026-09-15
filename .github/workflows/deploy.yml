@@ -3,7 +3,7 @@ name: Deploy Next.js SSG to Cloud.ru
 on:
   push:
     branches:
-      - main # Замените на master, если ваша ветка называется master
+      - main # Напишите master, если ваша ветка называется master
 
 jobs:
   deploy:
@@ -25,17 +25,18 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Setup Rclone
-        uses: rclone/rclone-action@v1
+      - name: Install Rclone
+        run: sudo apt-get update && sudo apt-get install -y rclone
 
-      - name: Deploy to Cloud.ru S3 via Rclone
+      - name: Deploy to Cloud.ru S3
         run: |
           rclone sync out/ :s3:azimut-school.ru \
             --s3-provider=Other \
-            --s3-endpoint=https://s3.cloud.ru \
+            --s3-endpoint=https://cloud.ru \
             --s3-region=ru-central-1 \
             --s3-access-key-id=$AWS_ACCESS_KEY_ID \
-            --s3-secret-access-key=$AWS_SECRET_ACCESS_KEY
+            --s3-secret-access-key=$AWS_SECRET_ACCESS_KEY \
+            --s3-no-check-bucket
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
