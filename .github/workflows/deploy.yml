@@ -3,7 +3,7 @@ name: Deploy Next.js SSG to Cloud.ru
 on:
   push:
     branches:
-      - main # Замените на master, если ваша ветка называется master
+      - main # Если ваша ветка называется master, замените main на master
 
 jobs:
   deploy:
@@ -29,9 +29,8 @@ jobs:
         run: |
           aws s3 sync out/ s3://azimut-school.ru \
             --endpoint-url=https://s3.cloud.ru \
-            --no-verify-ssl \
+            --region=ru-central-1 \
             --delete
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ru-central1
