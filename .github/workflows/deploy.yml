@@ -50,4 +50,56 @@ jobs:
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: root
-          key: ${{
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # Создаем папки для сертификатов, если их еще нет
+            mkdir -p /etc/ssl/certs /etc/ssl/private
+
+            # Записываем сертификаты напрямую в системные папки
+            echo "${{ secrets.SSL_CERT }}" > /etc/ssl/certs/fullchain.pem
+            echo "${{ secrets.SSL_KEY }}" > /etc/ssl/private/privkey.pem
+
+            # Устанавливаем корректные права на ключи (обязательно для Nginx)
+            chmod 644 /etc/ssl/certs/fullchain.pem
+            chmod 600 /etc/ssl/private/privkey.pem
+
+            # Устанавливаем и обновляем Nginx
+            apt-get update && apt-get install -y nginx
+
+            # Создаем конфигурацию сайта
+            cat << "EOF" > /etc/nginx/sites-available/default
+            server {
+                listen 80;
+                listen [::]:80;
+                server_name azimut-school.ru www.azimut-school.ru;
+                return 301 https://azimut-school.ru$request_uri;
+            }
+
+            server {
+                listen 443 ssl;
+                listen [::]:443 ssl;
+                server_name azimut-school.ru www.azimut-school.ru;
+
+                ssl_certificate /etc/ssl/certs/fullchain.pem;
+                ssl_certificate_key /etc/ssl/private/privkey.pem;
+
+                ssl_protocols TLSv1.2 TLSv1.3;
+                ssl_prefer_server_ciphers on;
+
+                root /var/www/azimut-school;
+                index index.html;
+
+                location / {
+                    try_files $uri $uri/ $uri.html =404;
+                }
+
+                location /_next/static/ {
+                    alias /var/www/azimut-school/_next/static/;
+                    expires 365d;
+                    access_log off;
+                }
+            }
+            EOF
+
+            # Тестируем конфигурацию и перезапускаем Nginx
+            nginx -t && systemctl restart nginx
