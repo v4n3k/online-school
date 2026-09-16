@@ -3,7 +3,7 @@ name: Deploy Next.js and SSL to Cloud.ru VPS
 on:
   push:
     branches:
-      - main # Используйте master, если ваша основная ветка называется master
+      - main
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Используем стабильную LTS версию
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
@@ -29,45 +29,48 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: root
+          username: user1
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            mkdir -p /var/www/azimut-school
-            chown -R root:root /var/www/azimut-school
+            sudo mkdir -p /var/www/azimut-school
+            sudo chown -R user1:user1 /var/www/azimut-school
 
       - name: Deploy static files to Server
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: root
+          username: user1
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: 'out/*'
           target: '/var/www/azimut-school'
           strip_components: 1
 
-      - name: Configure SSL and Nginx on Server
+      - name: Write SSL certificates on Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: root
+          username: user1
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            # Создаем папки для сертификатов, если их еще нет
-            mkdir -p /etc/ssl/certs /etc/ssl/private
+            sudo mkdir -p /etc/ssl/certs /etc/ssl/private
+            sudo bash -c 'cat > /etc/ssl/certs/fullchain.pem << "CERT_EOF"
+            ${{ secrets.SSL_CERT }}
+            CERT_EOF'
+            sudo bash -c 'cat > /etc/ssl/private/privkey.pem << "KEY_EOF"
+            ${{ secrets.SSL_KEY }}
+            KEY_EOF'
+            sudo chmod 644 /etc/ssl/certs/fullchain.pem
+            sudo chmod 600 /etc/ssl/private/privkey.pem
 
-            # Записываем сертификаты напрямую в системные папки
-            echo "${{ secrets.SSL_CERT }}" > /etc/ssl/certs/fullchain.pem
-            echo "${{ secrets.SSL_KEY }}" > /etc/ssl/private/privkey.pem
-
-            # Устанавливаем корректные права на ключи (обязательно для Nginx)
-            chmod 644 /etc/ssl/certs/fullchain.pem
-            chmod 600 /etc/ssl/private/privkey.pem
-
-            # Устанавливаем и обновляем Nginx
-            apt-get update && apt-get install -y nginx
-
-            # Создаем конфигурацию сайта
-            cat << "EOF" > /etc/nginx/sites-available/default
+      - name: Install and configure Nginx
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: user1
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            sudo apt-get update && sudo apt-get install -y nginx
+            sudo bash -c 'cat > /etc/nginx/sites-available/default << "NGINX_EOF"
             server {
                 listen 80;
                 listen [::]:80;
@@ -99,7 +102,5 @@ jobs:
                     access_log off;
                 }
             }
-            EOF
-
-            # Тестируем конфигурацию и перезапускаем Nginx
-            nginx -t && systemctl restart nginx
+            NGINX_EOF'
+            sudo nginx -t && sudo systemctl restart nginx
