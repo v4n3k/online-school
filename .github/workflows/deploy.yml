@@ -3,7 +3,7 @@ name: Deploy Next.js and SSL to Cloud.ru VPS
 on:
   push:
     branches:
-      - main # Напишите master, если ваша ветка называется master
+      - main # Используйте master, если ваша основная ветка называется master
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20' # Используем стабильную LTS версию
           cache: 'npm'
 
       - name: Install dependencies
@@ -25,12 +25,22 @@ jobs:
       - name: Build static site
         run: npm run build
 
+      - name: Prepare server directories
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            mkdir -p /var/www/azimut-school
+            chown -R root:root /var/www/azimut-school
+
       - name: Deploy static files to Server
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: root # Переключаемся на root, чтобы пройти handshake и не спотыкаться о sudo
-          password: ${{ secrets.SERVER_PASSWORD }}
+          username: root
+          key: ${{ secrets.SERVER_SSH_KEY }}
           source: 'out/*'
           target: '/var/www/azimut-school'
           strip_components: 1
@@ -39,54 +49,5 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: root # Выполняем системные команды настройки Nginx напрямую от root
-          password: ${{ secrets.SERVER_PASSWORD }}
-          script: |
-            # Создаем папки для сертификатов, если их еще нет
-            mkdir -p /etc/ssl/certs /etc/ssl/private
-
-            # Записываем сертификаты напрямую в системные папки
-            echo "${{ secrets.SSL_CERT }}" > /etc/ssl/certs/fullchain.pem
-            echo "${{ secrets.SSL_KEY }}" > /etc/ssl/private/privkey.pem
-
-            # Устанавливаем и обновляем Nginx
-            apt-get update && apt-get install -y nginx
-
-            # Создаем конфигурацию сайта с поддержкой синтаксиса Ubuntu 24.04
-            cat << "EOF" > /etc/nginx/sites-available/default
-            server {
-                listen 80;
-                listen [::]:80;
-                server_name azimut-school.ru www.azimut-school.ru;
-                return 301 https://azimut-school.ru$request_uri;
-            }
-
-            server {
-                listen 443 ssl;
-                listen [::]:443 ssl;
-                server_name azimut-school.ru www.azimut-school.ru;
-
-                ssl_certificate /etc/ssl/certs/fullchain.pem;
-                ssl_certificate_key /etc/ssl/private/privkey.pem;
-
-                ssl_protocols TLSv1.2 TLSv1.3;
-                ssl_prefer_server_ciphers on;
-
-                root /var/www/azimut-school;
-                index index.html;
-
-                location / {
-                    try_files $uri $uri/ $uri.html =404;
-                }
-
-                location /_next/static/ {
-                    alias /var/www/azimut-school/_next/static/;
-                    expires 365d;
-                    access_log off;
-                }
-            }
-            EOF
-
-            # Настраиваем права папки сайта и перезапускаем Nginx
-            mkdir -p /var/www/azimut-school
-            nginx -t && systemctl restart nginx
+          username: root
+          key: ${{
