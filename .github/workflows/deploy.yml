@@ -1,4 +1,4 @@
-name: Deploy Next.js and SSL to Cloud.ru VPS
+name: Deploy Next.js SSG to Cloud.ru S3
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,82 +24,14 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Prepare server directories
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Deploy to Cloud.ru S3
+        uses: jakejarvis/s3-sync-action@master
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: user1
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            sudo mkdir -p /var/www/azimut-school
-            sudo chown -R user1:user1 /var/www/azimut-school
-
-      - name: Deploy static files to Server
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: user1
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: 'out/*'
-          target: '/var/www/azimut-school'
-          strip_components: 1
-
-      - name: Write SSL certificates on Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: user1
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            sudo mkdir -p /etc/ssl/certs /etc/ssl/private
-            sudo bash -c 'cat > /etc/ssl/certs/fullchain.pem << "CERT_EOF"
-            ${{ secrets.SSL_CERT }}
-            CERT_EOF'
-            sudo bash -c 'cat > /etc/ssl/private/privkey.pem << "KEY_EOF"
-            ${{ secrets.SSL_KEY }}
-            KEY_EOF'
-            sudo chmod 644 /etc/ssl/certs/fullchain.pem
-            sudo chmod 600 /etc/ssl/private/privkey.pem
-
-      - name: Install and configure Nginx
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: user1
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            sudo apt-get update && sudo apt-get install -y nginx
-            sudo bash -c 'cat > /etc/nginx/sites-available/default << "NGINX_EOF"
-            server {
-                listen 80;
-                listen [::]:80;
-                server_name azimut-school.ru www.azimut-school.ru;
-                return 301 https://azimut-school.ru$request_uri;
-            }
-
-            server {
-                listen 443 ssl;
-                listen [::]:443 ssl;
-                server_name azimut-school.ru www.azimut-school.ru;
-
-                ssl_certificate /etc/ssl/certs/fullchain.pem;
-                ssl_certificate_key /etc/ssl/private/privkey.pem;
-
-                ssl_protocols TLSv1.2 TLSv1.3;
-                ssl_prefer_server_ciphers on;
-
-                root /var/www/azimut-school;
-                index index.html;
-
-                location / {
-                    try_files $uri $uri/ $uri.html =404;
-                }
-
-                location /_next/static/ {
-                    alias /var/www/azimut-school/_next/static/;
-                    expires 365d;
-                    access_log off;
-                }
-            }
-            NGINX_EOF'
-            sudo nginx -t && sudo systemctl restart nginx
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: 'azimut-school-static' # Имя вашего бакета
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_REGION: 'ru-1' # Уточните регион в настройках Cloud.ru (обычно ru-1 или ru-msk)
+          AWS_S3_ENDPOINT: 'https://s3.cloud.ru' # Endpoint Cloud.ru (проверьте в документации или свойствах бакета)
+          SOURCE_DIR: 'out'
