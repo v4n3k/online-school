@@ -26,10 +26,10 @@ jobs:
         run: npm run build
 
       - name: Deploy static files to Server
-        uses: appleboy/scp-action@v0.1.8 # Обновили до v0.1.8 для совместимости с Ubuntu 24.04
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: user1
+          username: root # Переключаемся на root, чтобы пройти handshake и не спотыкаться о sudo
           password: ${{ secrets.SERVER_PASSWORD }}
           source: 'out/*'
           target: '/var/www/azimut-school'
@@ -39,22 +39,21 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: user1
+          username: root # Выполняем системные команды настройки Nginx напрямую от root
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            # Записываем сертификаты во временную папку
-            echo "${{ secrets.SSL_CERT }}" > /tmp/fullchain.pem
-            echo "${{ secrets.SSL_KEY }}" > /tmp/privkey.pem
+            # Создаем папки для сертификатов, если их еще нет
+            mkdir -p /etc/ssl/certs /etc/ssl/private
 
-            # Переносим их в системные папки с правами sudo
-            sudo mv /tmp/fullchain.pem /etc/ssl/certs/fullchain.pem
-            sudo mv /tmp/privkey.pem /etc/ssl/private/privkey.pem
+            # Записываем сертификаты напрямую в системные папки
+            echo "${{ secrets.SSL_CERT }}" > /etc/ssl/certs/fullchain.pem
+            echo "${{ secrets.SSL_KEY }}" > /etc/ssl/private/privkey.pem
 
-            # Устанавливаем Nginx, если его еще нет
-            sudo apt-get update && sudo apt-get install -y nginx
+            # Устанавливаем и обновляем Nginx
+            apt-get update && apt-get install -y nginx
 
-            # Создаем конфигурацию сайта
-            sudo bash -c 'cat << "EOF" > /etc/nginx/sites-available/default
+            # Создаем конфигурацию сайта с поддержкой синтаксиса Ubuntu 24.04
+            cat << "EOF" > /etc/nginx/sites-available/default
             server {
                 listen 80;
                 listen [::]:80;
@@ -86,9 +85,8 @@ jobs:
                     access_log off;
                 }
             }
-            EOF'
+            EOF
 
             # Настраиваем права папки сайта и перезапускаем Nginx
-            sudo mkdir -p /var/www/azimut-school
-            sudo chown -R user1:user1 /var/www/azimut-school
-            sudo nginx -t && sudo systemctl restart nginx
+            mkdir -p /var/www/azimut-school
+            nginx -t && systemctl restart nginx
