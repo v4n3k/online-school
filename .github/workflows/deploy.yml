@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,9 +30,9 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: 'azimut-school-static' # Имя вашего бакета
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-          AWS_REGION: 'ru-1' # Уточните регион в настройках Cloud.ru (обычно ru-1 или ru-msk)
-          AWS_S3_ENDPOINT: 'https://s3.cloud.ru' # Endpoint Cloud.ru (проверьте в документации или свойствах бакета)
+          AWS_S3_BUCKET: 'azimut-school-static'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'ru-1'
+          AWS_S3_ENDPOINT: 'https://s3.cloud.ru'
           SOURCE_DIR: 'out'
