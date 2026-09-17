@@ -1,4 +1,4 @@
-name: Deploy Next.js SSG to Cloud.ru S3
+name: Deploy Next.js SSG to Yandex Cloud S3
 
 on:
   push:
@@ -25,14 +25,14 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Deploy to Cloud.ru S3
+      - name: Deploy to Yandex Cloud S3
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
           AWS_S3_BUCKET: 'azimut-school-static'
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'ru-central-1'
-          AWS_S3_ENDPOINT: 'https://s3.cloud.ru'
+          AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_KEY }}
+          AWS_REGION: 'ru-central1'
+          AWS_S3_ENDPOINT: 'https://storage.yandexcloud.net'
           SOURCE_DIR: 'out'
