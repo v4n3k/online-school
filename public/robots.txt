@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://azimut-school.ru/sitemap.xml
