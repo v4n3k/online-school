@@ -1,0 +1,33 @@
+.wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	min-height: 100svh;
+	padding-block: 64px;
+}
+
+.code {
+	font-family: var(--font-heading);
+	font-size: clamp(6rem, 20vw, 11rem);
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.04em;
+	background: linear-gradient(135deg, var(--primary), #7c3aed);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	margin-bottom: 24px;
+}
+
+.title {
+	font-size: clamp(1.5rem, 4vw, 2.25rem);
+	margin-bottom: 16px;
+}
+
+.text {
+	color: var(--muted);
+	max-width: 440px;
+	margin-bottom: 32px;
+}
