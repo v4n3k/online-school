@@ -2,6 +2,7 @@
 'use no memo';
 
 import { Container, Dots, SectionHeading, SlideUp } from '@/components';
+import { TEACHERS } from '@/data';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -11,52 +12,12 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import styles from './Teachers.module.css';
 
-const TEACHERS = [
-	{
-		avatarSrc: '/images/lebedev_v2.jpg',
-		name: 'Лебедев Марат Русланович',
-		university: 'Российский университет медицины',
-		subject: 'Химия · Биология',
-		text: 'Подготовит к ОГЭ и олимпиадам по биологии с любого уровня знаний',
-	},
-	{
-		avatarSrc: '/images/kopyrina_v2.jpg',
-		name: 'Копырина Анастасия Ильинична',
-		university: 'НИУ ВШЭ',
-		subject: 'Английский язык',
-		text: 'Преподает английский 3 года, уровень знаний C1',
-	},
-	{
-		avatarSrc: '/images/kostunin_v2.jpg',
-		name: 'Костюнин Даниил Олегович',
-		university: 'РНИМУ им. Н.И. Пирогова',
-		subject: 'Биология',
-		text:
-			'Преподает биологию 3 года ,готовит к ОГЭ , очень легко находит общий язык с ребенком',
-	},
-	{
-		avatarSrc: '/images/chernyh_v2.jpg',
-		name: 'Черных Максим Игоревич',
-		university: 'МГТУ им Н.Э.Баумана',
-		subject: 'Физика',
-		text:
-			'Объяснит сложную физику простым языком и подготовит к ОГЭ на высокий балл',
-	},
-	{
-		avatarSrc: '/images/novikov_v2.jpg',
-		name: 'Новиков Аким Алексеевич',
-		university:
-			'Российская академия народного хозяйства и государственной службы (РАНХИГС)',
-		subject: 'Обществознание · История',
-		text:
-			'Подготовит к ОГЭ по обществознанию и истории системно и понятно — без скучной теории',
-	},
-];
+const SLIDES = [...TEACHERS, ...TEACHERS];
 
 export function Teachers() {
-	const [teachers] = useState([...TEACHERS, ...TEACHERS]);
 	const [active, setActive] = useState(0);
 	const swiperRef = useRef<SwiperType | null>(null);
+
 	return (
 		<SlideUp className={styles.section} id='teachers'>
 			<Container>
@@ -102,7 +63,7 @@ export function Teachers() {
 						1000: { slidesPerView: 3 },
 					}}
 				>
-					{teachers.map((teacher, index) => (
+					{SLIDES.map((teacher, index) => (
 						<SwiperSlide
 							key={`${teacher.name}-${index}`}
 							className={styles.slide}
