@@ -1,20 +1,20 @@
 export const TEACHERS = [
 	{
-		avatarSrc: '/images/lebedev_v2.jpg',
+		avatarSrc: '/images/lebedev_v2.webp',
 		name: 'Лебедев Марат Русланович',
 		university: 'Российский университет медицины',
 		subject: 'Химия · Биология',
 		text: 'Подготовит к ОГЭ и олимпиадам по биологии с любого уровня знаний',
 	},
 	{
-		avatarSrc: '/images/kopyrina_v2.jpg',
+		avatarSrc: '/images/kopyrina_v2.webp',
 		name: 'Копырина Анастасия Ильинична',
 		university: 'НИУ ВШЭ',
 		subject: 'Английский язык',
 		text: 'Преподает английский 3 года, уровень знаний C1',
 	},
 	{
-		avatarSrc: '/images/kostunin_v2.jpg',
+		avatarSrc: '/images/kostunin_v2.webp',
 		name: 'Костюнин Даниил Олегович',
 		university: 'РНИМУ им. Н.И. Пирогова',
 		subject: 'Биология',
@@ -22,7 +22,7 @@ export const TEACHERS = [
 			'Преподает биологию 3 года ,готовит к ОГЭ , очень легко находит общий язык с ребенком',
 	},
 	{
-		avatarSrc: '/images/chernyh_v2.jpg',
+		avatarSrc: '/images/chernyh_v2.webp',
 		name: 'Черных Максим Игоревич',
 		university: 'МГТУ им Н.Э.Баумана',
 		subject: 'Физика',
@@ -30,7 +30,7 @@ export const TEACHERS = [
 			'Объяснит сложную физику простым языком и подготовит к ОГЭ на высокий балл',
 	},
 	{
-		avatarSrc: '/images/novikov_v2.jpg',
+		avatarSrc: '/images/novikov_v2.webp',
 		name: 'Новиков Аким Алексеевич',
 		university:
 			'Российская академия народного хозяйства и государственной службы (РАНХИГС)',
@@ -39,7 +39,7 @@ export const TEACHERS = [
 			'Подготовит к ОГЭ по обществознанию и истории системно и понятно — без скучной теории',
 	},
 	{
-		avatarSrc: '/images/vologzhanin_v2.jpg',
+		avatarSrc: '/images/vologzhanin_v2.webp',
 		name: 'Вологжанин Иван Вячеславович',
 		university: 'Московский физико-технический институт',
 		subject: 'Информатика · География',
