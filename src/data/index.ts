@@ -1,0 +1,1 @@
+export { FAQ_ITEMS } from "./faq";
