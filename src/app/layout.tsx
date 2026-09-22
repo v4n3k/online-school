@@ -14,10 +14,14 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
+	metadataBase: new URL('https://azimut-school.ru'),
 	title:
 		'Онлайн-школа «Азимут» — подготовка к ОГЭ и олимпиадам для 5–9 классов',
 	description:
-		'Онлайн-школа подготовки к ОГЭ и олимпиадам для учеников 5–9 классов. Математика, русский язык, информатика и другие предметы. Занятия индивидуально.',
+		'Онлайн-школа подготовки к ОГЭ и олимпиадам для учеников 5–9 классов: математика, русский язык, информатика и другие предметы. Индивидуальные занятия.',
+	alternates: {
+		canonical: '/',
+	},
 	openGraph: {
 		title: 'Онлайн-школа «Азимут»',
 		description: 'Подготовка к ОГЭ и олимпиадам для учеников 5–9 классов.',
@@ -25,11 +29,21 @@ export const metadata: Metadata = {
 		siteName: 'Онлайн-школа «Азимут»',
 		locale: 'ru_RU',
 		type: 'website',
+		images: [
+			{
+				url: '/og-image.png',
+				width: 1200,
+				height: 630,
+				alt:
+					'Онлайн-школа «Азимут» — подготовка к ОГЭ и олимпиадам для 5–9 классов',
+			},
+		],
 	},
 	twitter: {
 		card: 'summary_large_image',
 		title: 'Онлайн-школа «Азимут»',
 		description: 'Подготовка к ОГЭ и олимпиадам для учеников 5–9 классов.',
+		images: ['/og-image.png'],
 	},
 };
 
@@ -40,6 +54,28 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
 				<a href='#main' className='skip-link'>
 					Перейти к содержимому
 				</a>
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							'@context': 'https://schema.org',
+							'@type': 'EducationalOrganization',
+							name: 'Онлайн-школа «Азимут»',
+							url: 'https://azimut-school.ru/',
+							logo: 'https://azimut-school.ru/logo.png',
+							description:
+								'Онлайн-школа подготовки к ОГЭ и олимпиадам для учеников 5–9 классов. Математика, русский язык, информатика и другие предметы. Занятия индивидуально.',
+							telephone: '+79168091115',
+							contactPoint: {
+								'@type': 'ContactPoint',
+								telephone: '+79168091115',
+								contactType: 'customer support',
+								areaServed: 'RU',
+								availableLanguage: 'Russian',
+							},
+						}),
+					}}
+				/>
 				{children}
 			</body>
 		</html>
