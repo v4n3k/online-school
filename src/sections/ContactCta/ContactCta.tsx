@@ -10,6 +10,7 @@ const CHANNEL = {
 			fill='none'
 			stroke='currentColor'
 			strokeWidth='1.8'
+			aria-hidden='true'
 		>
 			<path
 				d='M5 4h4l1.5 4-2 1.5a11 11 0 0 0 6 6L16 13l4 1.5v4a1.8 1.8 0 0 1-2 1.8A16 16 0 0 1 3.8 6.2 1.8 1.8 0 0 1 5 4Z'

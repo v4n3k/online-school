@@ -12,6 +12,7 @@ const FEATURES = [
 				fill='none'
 				stroke='currentColor'
 				strokeWidth='1.8'
+				aria-hidden='true'
 			>
 				<circle cx='12' cy='7' r='4' />
 				<path d='M12 13.5c-3.8 0-6 2.2-6 4.5' strokeLinecap='round' />
@@ -29,6 +30,7 @@ const FEATURES = [
 				fill='none'
 				stroke='currentColor'
 				strokeWidth='1.8'
+				aria-hidden='true'
 			>
 				<path
 					d='M4 20V10M10 20V4M16 20v-7M22 20H2'
@@ -48,6 +50,7 @@ const FEATURES = [
 				fill='none'
 				stroke='currentColor'
 				strokeWidth='1.8'
+				aria-hidden='true'
 			>
 				<path
 					d='M3 11l9-7 9 7M5 10v10h14V10'
@@ -68,6 +71,7 @@ const FEATURES = [
 				fill='none'
 				stroke='currentColor'
 				strokeWidth='1.8'
+				aria-hidden='true'
 			>
 				<path d='M12 3v3M12 18v3' strokeLinecap='round' />
 				<circle cx='12' cy='12' r='7' />
