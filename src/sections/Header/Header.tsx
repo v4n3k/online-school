@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState, useSyncExternalStore } from 'react';
-import { createPortal } from 'react-dom';
 import { Container, Logo } from '@/components';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Header.module.css';
 
 const NAV_LINKS = [
@@ -13,13 +13,16 @@ const NAV_LINKS = [
 	{ href: '#faq', label: 'Вопросы' },
 ];
 
-export function Header() {
+export const Header = () => {
 	const [open, setOpen] = useState(false);
 	const mounted = useSyncExternalStore(
 		() => () => {},
 		() => true,
 		() => false,
 	);
+	const burgerRef = useRef<HTMLButtonElement>(null);
+	const menuRef = useRef<HTMLDivElement>(null);
+	const backdropRef = useRef<HTMLButtonElement>(null);
 
 	useEffect(() => {
 		if (!open) return;
@@ -35,6 +38,69 @@ export function Header() {
 			document.body.style.right = '';
 			window.scrollTo(0, scrollY);
 		};
+	}, [open]);
+
+	useEffect(() => {
+		if (!open) return;
+
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				setOpen(false);
+				burgerRef.current?.focus();
+				return;
+			}
+			if (e.key !== 'Tab') return;
+
+			const menu = menuRef.current;
+			const burger = burgerRef.current;
+			if (!menu) return;
+			const active = document.activeElement;
+			const inMenu = menu.contains(active);
+
+			if (!inMenu && active !== burger) {
+				e.preventDefault();
+				burger?.focus();
+				return;
+			}
+
+			const focusables = Array.from(
+				menu.querySelectorAll<HTMLElement>(
+					'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+				),
+			);
+			if (focusables.length === 0) return;
+			const first = focusables[0];
+			const last = focusables[focusables.length - 1];
+
+			if (e.shiftKey) {
+				if (active === burger) {
+					e.preventDefault();
+					last.focus();
+				} else if (active === first) {
+					e.preventDefault();
+					burger?.focus();
+				}
+			} else if (active === burger) {
+				e.preventDefault();
+				first.focus();
+			} else if (active === last) {
+				e.preventDefault();
+				burger?.focus();
+			}
+		};
+
+		document.addEventListener('keydown', onKeyDown);
+		return () => document.removeEventListener('keydown', onKeyDown);
+	}, [open]);
+
+	useEffect(() => {
+		if (open) return;
+		const el = document.activeElement;
+		const inMenu = el instanceof Node && menuRef.current?.contains(el);
+		const onBackdrop = backdropRef.current === el;
+		if ((inMenu || onBackdrop) && !(el instanceof HTMLAnchorElement)) {
+			burgerRef.current?.focus();
+		}
 	}, [open]);
 
 	return (
@@ -67,8 +133,9 @@ export function Header() {
 
 				<button
 					type='button'
+					ref={burgerRef}
 					className={styles.burger}
-					aria-label='Открыть меню'
+					aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
 					aria-expanded={open}
 					aria-controls={mounted ? 'mobile-menu' : undefined}
 					onClick={() => setOpen(o => !o)}
@@ -94,17 +161,24 @@ export function Header() {
 			{mounted &&
 				createPortal(
 					<>
-						<div
+						<button
+							type='button'
+							ref={backdropRef}
 							className={`${styles.backdrop} ${
 								open ? styles.backdropOpen : ''
 							}`}
+							aria-label='Закрыть меню'
 							onClick={() => setOpen(false)}
 						/>
 						<div
 							id='mobile-menu'
+							ref={menuRef}
 							className={`${styles.mobileMenu} ${
 								open ? styles.mobileMenuOpen : ''
 							}`}
+							role='dialog'
+							aria-modal='true'
+							aria-label='Меню'
 						>
 							<nav
 								className={styles.mobileNav}
@@ -137,4 +211,4 @@ export function Header() {
 				)}
 		</header>
 	);
-}
+};
