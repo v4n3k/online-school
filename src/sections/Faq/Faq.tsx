@@ -44,6 +44,7 @@ export function Faq() {
                   id={panelId}
                   role="region"
                   aria-labelledby={buttonId}
+                  aria-hidden={!isOpen}
                   className={styles.answerWrap}
                 >
                   <div className={styles.answerInner}>
