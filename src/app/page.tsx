@@ -9,7 +9,6 @@ import {
 	Hero,
 	Pricing,
 	Programs,
-	Teachers,
 } from '@/sections';
 
 export default function Home() {
@@ -21,7 +20,7 @@ export default function Home() {
 				<Advantages />
 				<Programs />
 				<Formats />
-				<Teachers />
+				{/* <Teachers /> */}
 				<Pricing />
 				{/* <Reviews /> */}
 				<Faq />
