@@ -4,7 +4,7 @@ import styles from './Footer.module.css';
 const NAV_LINKS = [
 	{ href: '#advantages', label: 'Преимущества' },
 	{ href: '#programs', label: 'Программы' },
-	{ href: '#teachers', label: 'Преподаватели' },
+	// { href: '#teachers', label: 'Преподаватели' },
 	{ href: '#pricing', label: 'Цены' },
 	{ href: '#faq', label: 'Вопросы' },
 ];
