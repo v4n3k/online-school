@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -36,3 +37,46 @@ jobs:
           AWS_REGION: 'ru-central1'
           AWS_S3_ENDPOINT: 'https://storage.yandexcloud.net'
           SOURCE_DIR: 'out'
+
+      # S3 sync does not invalidate the CDN, so /index.html keeps serving the
+      # previous build until the cached entry expires. Purging a single path is
+      # not enough here - only a full purge clears the stale / entry.
+      - name: Purge CDN cache
+        env:
+          YC_PURGE_SA_KEY: ${{ secrets.YC_PURGE_SA_KEY }}
+          YC_FOLDER_ID: ${{ vars.YC_FOLDER_ID }}
+          YC_CDN_RESOURCE_ID: ${{ vars.YC_CDN_RESOURCE_ID }}
+        run: |
+          set -euo pipefail
+
+          curl -fsSL https://yandex.cloud/install.sh | bash
+          export PATH="$HOME/yandex-cloud/bin:$PATH"
+
+          printf '%s' "$YC_PURGE_SA_KEY" > sa-key.json
+          yc config profile create gh-actions
+          yc config set --profile gh-actions service-account-key sa-key.json
+          rm -f sa-key.json
+
+          # the API allows one purge operation per minute
+          for attempt in 1 2 3; do
+            if output=$(yc cdn cache purge \
+              --profile gh-actions \
+              --folder-id "$YC_FOLDER_ID" \
+              --resource-id "$YC_CDN_RESOURCE_ID" \
+              --all 2>&1); then
+              echo "$output"
+              echo 'CDN cache purged'
+              exit 0
+            fi
+
+            echo "$output"
+            if ! grep -q 'limit per minute' <<<"$output"; then
+              exit 1
+            fi
+
+            echo "Rate limited, retrying in 65s (attempt $attempt/3)"
+            sleep 65
+          done
+
+          echo 'CDN cache purge failed after 3 attempts'
+          exit 1
