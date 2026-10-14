@@ -44,26 +44,22 @@ jobs:
       - name: Purge CDN cache
         env:
           YC_PURGE_SA_KEY: ${{ secrets.YC_PURGE_SA_KEY }}
+          YC_PURGE_KEY_ID: ${{ vars.YC_PURGE_KEY_ID }}
+          YC_PURGE_SA_ID: ${{ vars.YC_PURGE_SA_ID }}
           YC_CDN_RESOURCE_ID: ${{ vars.YC_CDN_RESOURCE_ID }}
         run: |
           set -euo pipefail
 
-          printf '%s' "$YC_PURGE_SA_KEY" > sa-key.json
-
-          read -r KEY_ID SA_ID < <(python3 -c '
-          import json
-          k = json.load(open("sa-key.json"))
-          open("sa-key.pem", "w").write(k["private_key"])
-          print(k["id"], k["service_account_id"])
-          ')
+          printf '%s' "$YC_PURGE_SA_KEY" > sa-key.pem
+          openssl rsa -in sa-key.pem -noout -check
 
           b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
 
           iat=$(date +%s)
           exp=$((iat + 3600))
-          header=$(printf '{"alg":"PS256","typ":"JWT","kid":"%s"}' "$KEY_ID" | b64url)
+          header=$(printf '{"alg":"PS256","typ":"JWT","kid":"%s"}' "$YC_PURGE_KEY_ID" | b64url)
           payload=$(printf '{"aud":"https://iam.api.cloud.yandex.net/iam/v1/tokens","iss":"%s","sub":"%s","iat":%s,"exp":%s}' \
-            "$SA_ID" "$KEY_ID" "$iat" "$exp" | b64url)
+            "$YC_PURGE_SA_ID" "$YC_PURGE_KEY_ID" "$iat" "$exp" | b64url)
           signing_input="$header.$payload"
           signature=$(printf '%s' "$signing_input" \
             | openssl dgst -sha256 -sigopt rsa_padding_mode:pss -sigopt rsa_pss_saltlen:-1 -sign sa-key.pem \
