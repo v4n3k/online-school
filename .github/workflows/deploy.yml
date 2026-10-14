@@ -39,43 +39,72 @@ jobs:
           SOURCE_DIR: 'out'
 
       # S3 sync does not invalidate the CDN, so /index.html keeps serving the
-      # previous build until the cached entry expires. Purging a single path is
-      # not enough here - only a full purge clears the stale / entry.
+      # previous build until the cached entry expires. An empty "paths" array
+      # purges the resource entirely - purging a single path is not enough here.
       - name: Purge CDN cache
         env:
           YC_PURGE_SA_KEY: ${{ secrets.YC_PURGE_SA_KEY }}
-          YC_FOLDER_ID: ${{ vars.YC_FOLDER_ID }}
           YC_CDN_RESOURCE_ID: ${{ vars.YC_CDN_RESOURCE_ID }}
         run: |
           set -euo pipefail
 
-          curl -fsSL https://yandex.cloud/install.sh | bash
-          export PATH="$HOME/yandex-cloud/bin:$PATH"
-
           printf '%s' "$YC_PURGE_SA_KEY" > sa-key.json
-          yc config profile create gh-actions
-          yc config set --profile gh-actions service-account-key sa-key.json
-          rm -f sa-key.json
+
+          read -r KEY_ID SA_ID < <(python3 -c '
+          import json
+          k = json.load(open("sa-key.json"))
+          open("sa-key.pem", "w").write(k["private_key"])
+          print(k["id"], k["service_account_id"])
+          ')
+
+          b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+
+          iat=$(date +%s)
+          exp=$((iat + 3600))
+          header=$(printf '{"alg":"PS256","typ":"JWT","kid":"%s"}' "$KEY_ID" | b64url)
+          payload=$(printf '{"aud":"https://iam.api.cloud.yandex.net/iam/v1/tokens","iss":"%s","sub":"%s","iat":%s,"exp":%s}' \
+            "$SA_ID" "$KEY_ID" "$iat" "$exp" | b64url)
+          signing_input="$header.$payload"
+          signature=$(printf '%s' "$signing_input" \
+            | openssl dgst -sha256 -sigopt rsa_padding_mode:pss -sigopt rsa_pss_saltlen:-1 -sign sa-key.pem \
+            | b64url)
+
+          TOKEN=$(curl -sf --max-time 30 -X POST 'https://iam.api.cloud.yandex.net/iam/v1/tokens' \
+            -H 'Content-Type: application/json' \
+            -d "{\"jwt\":\"$signing_input.$signature\"}" \
+            | python3 -c 'import json,sys; print(json.load(sys.stdin)["iamToken"])')
 
           # the API allows one purge operation per minute
           for attempt in 1 2 3; do
-            if output=$(yc cdn cache purge \
-              --profile gh-actions \
-              --folder-id "$YC_FOLDER_ID" \
-              --resource-id "$YC_CDN_RESOURCE_ID" \
-              --all 2>&1); then
-              echo "$output"
-              echo 'CDN cache purged'
-              exit 0
-            fi
+            if response=$(curl -s --max-time 30 -X POST \
+              "https://cdn.api.cloud.yandex.net/cdn/v1/cache/${YC_CDN_RESOURCE_ID}:purge" \
+              -H "Authorization: Bearer $TOKEN" \
+              -H 'Content-Type: application/json' \
+              -d '{"paths":[]}'); then
 
-            echo "$output"
-            if ! grep -q 'limit per minute' <<<"$output"; then
+              case "$response" in
+                *'"error"'*)
+                  if grep -q 'limit per minute' <<<"$response"; then
+                    echo "Rate limited, retrying in 65s (attempt $attempt/3)"
+                    sleep 65
+                    continue
+                  fi
+                  echo "$response"
+                  exit 1
+                  ;;
+                *'"done":true'*|*'"done": true'*)
+                  echo "$response"
+                  echo 'CDN cache purged'
+                  exit 0
+                  ;;
+              esac
+
+              echo "$response"
               exit 1
             fi
 
-            echo "Rate limited, retrying in 65s (attempt $attempt/3)"
-            sleep 65
+            echo 'purge request failed'
+            exit 1
           done
 
           echo 'CDN cache purge failed after 3 attempts'
